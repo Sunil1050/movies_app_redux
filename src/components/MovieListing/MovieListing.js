@@ -1,5 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import Slider from "react-slick";
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css"
+import { settings } from "../../common/settings";
 import { getAllMovies, getAllShows } from "../../features/movies/movieSlice";
 import MovieCard from "../MovieCard/MovieCard";
 import "./MovieListing.scss";
@@ -29,15 +33,35 @@ const MovieListing = () => {
         <h3>{shows.Error}</h3>
       </div>
     );
+
   return (
     <div className="movie-wrapper">
       <div className="movie-list">
         <h2>Movies</h2>
-        <div className="movie-container">{renderMovies}</div>
+        {Object.keys(movies).length === 0 ? (
+          <div>...Loading</div>
+        ) : (
+          <div className="movie-container">
+            <Slider {...settings}>
+              {renderMovies}
+            </Slider>
+          </div>
+        )
+        }
       </div>
       <div className="show-list">
         <h2>Shows</h2>
-        <div className="movie-container">{renderShows}</div>
+        {Object.keys(movies).length === 0 ? (
+          <div>...Loading</div>
+
+        ) : (
+          <div className="movie-container">
+            <Slider {...settings}>
+              {renderShows}
+            </Slider>
+          </div>
+        )
+        }
       </div>
     </div>
   );
