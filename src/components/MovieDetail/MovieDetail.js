@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import "./MovieDetail.scss";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+import Loader from "../Loader";
 import {
   fetchAsyncMovieOrShowDetail,
   getSelectedMovieOrShow,
@@ -22,8 +23,9 @@ const MovieDetail = () => {
   return (
     <div className="movie-section">
       {Object.keys(data).length === 0 ? (
-        <div>...Loading</div>
-      ) : (
+        <div className="loader-container">
+          <Loader />
+        </div>) : (
         <>
           <div className="section-left">
             <div className="movie-title">{data.Title}</div>
