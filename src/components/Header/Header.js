@@ -1,25 +1,31 @@
 import React from 'react';
 import { useState } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineSearch } from "react-icons/ai"
 import { Link } from 'react-router-dom';
-import { fetchAsyncMovies, fetchAsyncShows } from '../../features/movies/movieSlice';
+import { fetchAsyncMovies, fetchAsyncShows, setLoading } from '../../features/movies/movieSlice';
 import user from '../../images/user.png'
 import './Header.scss'
 
 const Header = () => {
+    const loading = useSelector((state) => state.movies.loading)
     const dispatch = useDispatch();
     const [input, setInput] = useState("");
 
     const onChangeInput = (event) => {
         setInput(event.target.value)
     }
+
     const onSearch = () => {
         if (input === "") return alert("Please enter search term!");
-        dispatch(fetchAsyncMovies(input))
-        dispatch(fetchAsyncShows(input))
-        setInput("")
+        dispatch(setLoading(true));
+        Promise.all([dispatch(fetchAsyncMovies(input)), dispatch(fetchAsyncShows(input))])
+            .then(() => {
+                dispatch(setLoading(false))
+                setInput("")
+            })
     }
+
 
     return (
         <div className='header'>

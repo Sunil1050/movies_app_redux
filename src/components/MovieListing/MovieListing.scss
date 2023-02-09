@@ -10,8 +10,15 @@
   }
 }
 
-// .movie-container {
-//   display: grid;
-//   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-//   grid-gap: 15px;
-// }
+.loader-container {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.loader {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}

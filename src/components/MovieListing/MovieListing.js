@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Slider from "react-slick";
 // import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css"
+import Loader from "../Loader";
 import { settings } from "../../common/settings";
 import { getAllMovies, getAllShows } from "../../features/movies/movieSlice";
 import MovieCard from "../MovieCard/MovieCard";
@@ -11,6 +12,7 @@ import "./MovieListing.scss";
 const MovieListing = () => {
   const movies = useSelector(getAllMovies);
   const shows = useSelector(getAllShows);
+  const loading = useSelector((state) => state.movies.loading)
   let renderMovies,
     renderShows = "";
 
@@ -34,36 +36,50 @@ const MovieListing = () => {
       </div>
     );
 
-  return (
-    <div className="movie-wrapper">
-      <div className="movie-list">
-        <h2>Movies</h2>
-        {Object.keys(movies).length === 0 ? (
-          <div>...Loading</div>
-        ) : (
-          <div className="movie-container">
-            <Slider {...settings}>
-              {renderMovies}
-            </Slider>
-          </div>
-        )
-        }
-      </div>
-      <div className="show-list">
-        <h2>Shows</h2>
-        {Object.keys(movies).length === 0 ? (
-          <div>...Loading</div>
 
-        ) : (
-          <div className="movie-container">
-            <Slider {...settings}>
-              {renderShows}
-            </Slider>
+
+  return (
+    <>
+      {loading ? (
+        <div className="loader-container">
+          <Loader />
+        </div>
+      ) : (
+        <div className="movie-wrapper">
+          <div className="movie-list">
+            <h2>Movies</h2>
+            {Object.keys(movies).length === 0 ? (
+              <div className="loader">
+                <Loader />
+              </div>) : (
+              <div className="movie-container">
+                <Slider {...settings}>
+                  {renderMovies}
+                </Slider>
+              </div>
+            )
+            }
           </div>
-        )
-        }
-      </div>
-    </div>
+          <div className="show-list">
+            <h2>Shows</h2>
+            {Object.keys(movies).length === 0 ? (
+              <div className="loader">
+                <Loader />
+              </div>
+            ) : (
+              <div className="movie-container">
+                <Slider {...settings}>
+                  {renderShows}
+                </Slider>
+              </div>
+            )
+            }
+          </div>
+        </div>
+      )
+      }
+    </>
+
   );
 };
 
